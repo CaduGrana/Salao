@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Salão de Beleza</title>
+</head>
+<body>
+    <h1>Bem-vindo ao Sistema de Agendamento</h1>
+    <a href="{{ url_for('cliente') }}">Área do Cliente</a> | 
+    <a href="{{ url_for('profissional') }}">Área do Profissional</a>
+
+    <h2>Agendamentos atuais:</h2>
+    <ul>
+    {% for ag in agendamentos %}
+        <li>
+            {% if ag.tipo == 'Cliente' %}
+                Cliente <b>{{ ag.cliente_nome }}</b> agendou com <b>{{ ag.profissional }}</b> em <b>{{ ag.data_hora }}</b>
+            {% else %}
+                Profissional <b>{{ ag.profissional }}</b> registrou atendimento em <b>{{ ag.data_hora }}</b>
+            {% endif %}
+        </li>
+    {% else %}
+        <li>Nenhum agendamento ainda.</li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

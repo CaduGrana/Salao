@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Agendamento Cliente</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            max-width: 400px;
+        }
+
+        input[type="text"], input[type="datetime-local"], select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 4px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .error-message {
+            color: red;
+        }
+
+        .success-message {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h1>Agendar atendimento - Cliente</h1>
+    <a href="{{ url_for('index') }}">Voltar</a>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul>
+        {% for category, message in messages %}
+          <li class="{% if category == 'error' %}error-message{% else %}success-message{% endif %}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form method="post">
+        Nome do Cliente: 
+        <input type="text" name="cliente_nome" required><br><br>
+
+        Profissional: 
+        <select name="profissional" required>
+            {% for p in profissionais %}
+            <option value="{{ p }}">{{ p }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        Data e Hora: 
+        <input type="datetime-local" name="data_hora" required><br><br>
+
+        <button type="submit">Agendar</button>
+    </form>
+
+    <h2>Seus agendamentos:</h2>
+    <ul>
+        {% for ag in agendamentos if ag.tipo == 'Cliente' %}
+            <li>{{ ag.cliente_nome }} com {{ ag.profissional }} em {{ ag.data_hora }}</li>
+        {% else %}
+            <li>Nenhum agendamento feito pelo cliente.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,8 +1,13 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from datetime import datetime
 
+from flask import Flask
+
 app = Flask(__name__)
-app.secret_key = 'segredo123'  # necessário para flash messages
+
+@app.route('/')
+def home():
+    return "Hello, Render!"
 
 # Dados simulados (em memória)
 profissionais = ['Ana', 'Bruno', 'Carla']
